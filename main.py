@@ -4,6 +4,8 @@ from typing import Any, Dict, Optional
 
 from bfs import Graph, bfs
 from hanoi import solve_hanoi_bfs
+from test_graphs import run as run_ab_tests
+from alice_bob import AB1Graph, AB2Graph, AB3Graph
 
 
 def bfs_sanity_demo() -> None:
@@ -49,7 +51,15 @@ def hanoi_demo(n: int = 3) -> None:
         print(f"  Step {i}: {state}")
 
 
+def alice_bob_demo() -> None:
+    """Run mutual exclusion / deadlock checks for AB1, AB2, AB3."""
+
+    run_ab_tests("AB1", AB1Graph())
+    run_ab_tests("AB2", AB2Graph())
+    run_ab_tests("AB3", AB3Graph())
+
 
 if __name__ == "__main__":
     bfs_sanity_demo()
     hanoi_demo(3)
+    alice_bob_demo()
