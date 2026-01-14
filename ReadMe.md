@@ -172,4 +172,39 @@ A small validation script to test the LS-based Hanoi:
    - Exclusion violation: (CS, CS, ...)
    - Deadlock: a state with no outgoing transitions
 4. The counterexample path is reconstructed using a BFS parent map and edge labels.
+---
 
+## Soup DSL (Python-like Domain Specific Language)
+
+In addition to Hanoi and Alice/Bob, the repository includes a small DSL called **Soup**.  
+The goal is to represent a program as a set of **rules** (pieces), each rule having:
+
+- a **guard**: a condition that decides when the rule can be applied
+- an **effect**: a function that computes the next state when the rule is applied
+
+This matches the style of operational semantics: from a state, you list enabled actions, then execute one.
+
+---
+
+### `soup_lang.py`
+Defines the Soup DSL and its semantics:
+
+- Piece: a named rule with (guard, effect)
+- Soup: a program containing:
+  - pieces: a list of Piece
+  - init: a list of initial states
+- SoupSemantics(LanguageSemantics):
+  - initials() returns init
+  - actions(state) returns the enabled Piece objects
+  - execute(state, piece) applies the piece effect and returns successor state(s)
+  - uses deepcopy in execute to avoid side effects when states are mutable
+
+This file is the runtime semantics of the Soup language.
+
+---
+
+### `soup_example.py`
+Demonstrates how to use the Soup DSL:
+- Example 1: a binary clock (0 → 1 → 0)
+- Example 2: a cyclic counter (0 → 1 → 2 → 0)
+- Example 3: BFS exploration of a Soup program by converting it to a rooted graph using LS2RG
