@@ -101,4 +101,75 @@ When running the verification:
   - Exclusion: passes
   - Deadlock: passes
 
+## New Abstraction Layer: Language Semantics (LS)
+
+To model systems at a higher level than a plain rooted graph, the repository adds Language Semantics:
+
+A LanguageSemantics object exposes:
+- initials(): initial states (same idea as roots())
+- actions(state): actions enabled from state (can represent labeled arcs, weighted transitions, etc.)
+- execute(state, action): applies an action and returns the successor state(s)
+
+This separates:
+- “what actions are possible from a state”
+from
+- “how these actions produce new states”
+
+This is useful when transitions are better expressed as **actions** (with optional weights/costs), rather than directly listing neighbors.
+
+---
+
+### languagesemantics.py
+Defines the LS abstraction:
+
+- LanguageSemantics base class with:
+  - initials()
+  - actions(state)
+  - execute(state, action)
+- Typically also includes an Action structure (label + optional payload/weight)
+
+---
+
+### ls2rg.py
+Adapter Language Semantics → RootedGraph.
+
+- Takes a LanguageSemantics instance and exposes:
+  - roots() by calling initials()
+  - neighbors(state) by enumerating actions(state) and applying execute(state, action)
+
+This adapter allows reusing the **same BFS** implementation without modification.
+
+---
+
+### hanoilanguagesemantics.py
+A modified Tower of Hanoi implementation based on LanguageSemantics instead of RootedGraph.
+
+- Defines Hanoi in terms of:
+  - enabled moves (actions) from each state
+  - execution of a move producing the next state(s)
+- Uses deepcopy when building successor configurations (explicit independent copies)
+
+This provides a direct example of how to switch from RootedGraph modeling to LS modeling.
+
+---
+
+### validation_ls.py
+A small validation script to test the LS-based Hanoi:
+
+- Builds the Hanoi LanguageSemantics
+- Wraps it with LS2RG
+- Runs BFS to find a solution (and optionally prints steps / moves depending on the script)
+
+---
+
+## How the Alice/Bob Verification Works
+
+1. Each protocol variant (AB1/AB2/AB3) defines a state-space:
+   - states represent the combined configuration of Alice and Bob
+   - transitions represent one atomic step by either Alice or Bob
+2. BFS explores all reachable states from the initial root state.
+3. Properties are checked by stopping BFS as soon as a bad state is discovered:
+   - Exclusion violation: (CS, CS, ...)
+   - Deadlock: a state with no outgoing transitions
+4. The counterexample path is reconstructed using a BFS parent map and edge labels.
 
