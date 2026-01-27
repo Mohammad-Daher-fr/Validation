@@ -17,15 +17,29 @@ class LS2RG(RootedGraph):
         self._labels: Dict[Tuple[Any, Any], str] = {}
 
     def roots(self) -> List[Any]:
-        return list(self.ls.initials())
+        return sorted(list(self.ls.initials()), key=repr)
 
     def neighbors(self, state: Any) -> List[Any]:
         out: List[Any] = []
-        for act in self.ls.actions(state):
-            for nxt in self.ls.execute(state, act):
+
+        acts = list(self.ls.actions(state))
+        # tri stable par nom si possible, sinon repr
+        acts.sort(key=lambda a: getattr(a, "name", repr(a)))
+
+        for act in acts:
+            nxts = list(self.ls.execute(state, act))
+            nxts.sort(key=repr)
+
+            for nxt in nxts:
                 out.append(nxt)
                 if self.keep_labels:
-                    self._labels[(state, nxt)] = act.name
+                    key = (state, nxt)
+                    name = act.name
+                    prev = self._labels.get(key)
+                    # si plusieurs actions mènent au même nxt, choisir la plus petite (stable)
+                    if prev is None or name < prev:
+                        self._labels[key] = name
+
         return out
 
     def label(self, src: Any, dst: Any) -> str:
