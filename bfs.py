@@ -37,7 +37,9 @@ def bfs(graph: Any, opaque: Opaque, on_entry: OnEntry) -> Tuple[Opaque, Set[Node
             parent = queue.popleft()
             frontier = graph.neighbors(parent)
 
-        for node in frontier:
+        frontier_list = list(frontier)
+        frontier_list.sort(key=repr)  # ordre stable inter-plateforme
+        for node in frontier_list:
             if node in visited:
                 continue
 
@@ -66,10 +68,10 @@ class Graph:
         self._adj[src].append(dst)
 
     def neighbors(self, node: Any) -> Iterable[Any]:
-        return self._adj.get(node, [])
+        return sorted(self._adj.get(node, []), key=repr)
 
     def roots(self) -> list[Any]:
-        """Return nodes with no incoming edges."""
+        """Return nodes with no incoming edges (deterministic order)."""
         all_nodes = set(self._adj.keys())
         all_neighbors = {n for nbrs in self._adj.values() for n in nbrs}
-        return list(all_nodes - all_neighbors)
+        return sorted(list(all_nodes - all_neighbors), key=repr)
