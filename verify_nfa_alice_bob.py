@@ -5,7 +5,7 @@ from bfs import bfs
 from ls2rg import LS2RG
 from soup_lang import SoupSemantics
 from alice_bob_soup_models import get_model
-from config_product import ConfigurationSynchronousProduct
+from StepSynchronousProduct import StepSynchronousProduct
 from isoup_lang import iSoupSemantics
 from nfa_properties import (
     build_never_cond_pattern1,
@@ -51,7 +51,7 @@ def build_property(prop: str, pattern: int, sys_sem: SoupSemantics):
     if prop_u == "P1":
         cond = cond_exclusion
     elif prop_u == "P2":
-        cond = make_cond_deadlock(sys_sem)
+        cond = make_cond_deadlock()
     else:
         raise ValueError(f"Propriété inconnue: {prop}")
 
@@ -72,7 +72,7 @@ def verify_one(model: str, prop: str, pattern: int) -> Dict[str, Any]:
     prop_sem = iSoupSemantics(isoup)
 
     # 3) produit
-    prod = ConfigurationSynchronousProduct(sys_sem, prop_sem)
+    prod = StepSynchronousProduct(sys_sem, prop_sem)
     prod_rg = LS2RG(prod, keep_labels=True)
 
     opaque: Dict[str, Any] = {"parent": {}, "goal": None}
