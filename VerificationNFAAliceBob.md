@@ -24,19 +24,17 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB1 --prop P1 --pattern 1
 ```
 
-- États explorés (visited) : **5**
+- États explorés (visited) : **4**
 - Résultat : **VIOLÉ** (contre-exemple trouvé)
 
 Trace (projection système) :
 ```text
-('I', 'I', 'DOWN', 'DOWN', 'Alice') --init--> ('I', 'I', 'DOWN', 'DOWN', 'Alice')
 ('I', 'I', 'DOWN', 'DOWN', 'Alice') --a1--> ('CS', 'I', 'DOWN', 'DOWN', 'Alice')
 ('CS', 'I', 'DOWN', 'DOWN', 'Alice') --b1--> ('CS', 'CS', 'DOWN', 'DOWN', 'Alice')
 ```
 
 Labels du produit :
 ```text
-init||true
 a1||true
 b1||cond
 ```
@@ -48,19 +46,17 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB1 --prop P1 --pattern 2
 ```
 
-- États explorés (visited) : **5**
+- États explorés (visited) : **4**
 - Résultat : **VIOLÉ** (contre-exemple trouvé)
 
 Trace (projection système) :
 ```text
-('I', 'I', 'DOWN', 'DOWN', 'Alice') --init--> ('I', 'I', 'DOWN', 'DOWN', 'Alice')
 ('I', 'I', 'DOWN', 'DOWN', 'Alice') --a1--> ('CS', 'I', 'DOWN', 'DOWN', 'Alice')
 ('CS', 'I', 'DOWN', 'DOWN', 'Alice') --b1--> ('CS', 'CS', 'DOWN', 'DOWN', 'Alice')
 ```
 
 Labels du produit :
 ```text
-init||!cond
 a1||!cond
 b1||cond
 ```
@@ -72,7 +68,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB1 --prop P2 --pattern 1
 ```
 
-- États explorés (visited) : **5**
+- États explorés (visited) : **4**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB1 — P2 — Patron 2
@@ -82,7 +78,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB1 --prop P2 --pattern 2
 ```
 
-- États explorés (visited) : **5**
+- États explorés (visited) : **4**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB2 — P1 — Patron 1
@@ -92,7 +88,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB2 --prop P1 --pattern 1
 ```
 
-- États explorés (visited) : **9**
+- États explorés (visited) : **8**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB2 — P1 — Patron 2
@@ -102,7 +98,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB2 --prop P1 --pattern 2
 ```
 
-- États explorés (visited) : **9**
+- États explorés (visited) : **8**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB2 — P2 — Patron 1
@@ -112,21 +108,21 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB2 --prop P2 --pattern 1
 ```
 
-- États explorés (visited) : **6**
+- États explorés (visited) : **8**
 - Résultat : **VIOLÉ** (contre-exemple trouvé)
 
 Trace (projection système) :
 ```text
-('I', 'I', 'DOWN', 'DOWN', 'Alice') --init--> ('I', 'I', 'DOWN', 'DOWN', 'Alice')
 ('I', 'I', 'DOWN', 'DOWN', 'Alice') --b1--> ('I', 'W', 'DOWN', 'UP', 'Alice')
 ('I', 'W', 'DOWN', 'UP', 'Alice') --a1--> ('W', 'W', 'UP', 'UP', 'Alice')
+('W', 'W', 'UP', 'UP', 'Alice') --stutter--> ('W', 'W', 'UP', 'UP', 'Alice')
 ```
 
 Labels du produit :
 ```text
-init||true
 b1||true
-a1||cond
+a1||true
+stutter||cond
 ```
 
 ### AB2 — P2 — Patron 2
@@ -136,21 +132,21 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB2 --prop P2 --pattern 2
 ```
 
-- États explorés (visited) : **6**
+- États explorés (visited) : **8**
 - Résultat : **VIOLÉ** (contre-exemple trouvé)
 
 Trace (projection système) :
 ```text
-('I', 'I', 'DOWN', 'DOWN', 'Alice') --init--> ('I', 'I', 'DOWN', 'DOWN', 'Alice')
 ('I', 'I', 'DOWN', 'DOWN', 'Alice') --b1--> ('I', 'W', 'DOWN', 'UP', 'Alice')
 ('I', 'W', 'DOWN', 'UP', 'Alice') --a1--> ('W', 'W', 'UP', 'UP', 'Alice')
+('W', 'W', 'UP', 'UP', 'Alice') --stutter--> ('W', 'W', 'UP', 'UP', 'Alice')
 ```
 
 Labels du produit :
 ```text
-init||!cond
 b1||!cond
-a1||cond
+a1||!cond
+stutter||cond
 ```
 
 ### AB3 — P1 — Patron 1
@@ -160,7 +156,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB3 --prop P1 --pattern 1
 ```
 
-- États explorés (visited) : **9**
+- États explorés (visited) : **8**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB3 — P1 — Patron 2
@@ -170,7 +166,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB3 --prop P1 --pattern 2
 ```
 
-- États explorés (visited) : **9**
+- États explorés (visited) : **8**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB3 — P2 — Patron 1
@@ -180,7 +176,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB3 --prop P2 --pattern 1
 ```
 
-- États explorés (visited) : **9**
+- États explorés (visited) : **8**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB3 — P2 — Patron 2
@@ -190,7 +186,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB3 --prop P2 --pattern 2
 ```
 
-- États explorés (visited) : **9**
+- États explorés (visited) : **8**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB4 — P1 — Patron 1
@@ -200,7 +196,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB4 --prop P1 --pattern 1
 ```
 
-- États explorés (visited) : **12**
+- États explorés (visited) : **11**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB4 — P1 — Patron 2
@@ -210,7 +206,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB4 --prop P1 --pattern 2
 ```
 
-- États explorés (visited) : **12**
+- États explorés (visited) : **11**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB4 — P2 — Patron 1
@@ -220,7 +216,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB4 --prop P2 --pattern 1
 ```
 
-- États explorés (visited) : **12**
+- États explorés (visited) : **11**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB4 — P2 — Patron 2
@@ -230,7 +226,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB4 --prop P2 --pattern 2
 ```
 
-- États explorés (visited) : **12**
+- États explorés (visited) : **11**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB5 — P1 — Patron 1
@@ -240,7 +236,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB5 --prop P1 --pattern 1
 ```
 
-- États explorés (visited) : **11**
+- États explorés (visited) : **10**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB5 — P1 — Patron 2
@@ -250,7 +246,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB5 --prop P1 --pattern 2
 ```
 
-- États explorés (visited) : **11**
+- États explorés (visited) : **10**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB5 — P2 — Patron 1
@@ -260,7 +256,7 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB5 --prop P2 --pattern 1
 ```
 
-- États explorés (visited) : **11**
+- États explorés (visited) : **10**
 - Résultat : **SAT** (pas de contre-exemple)
 
 ### AB5 — P2 — Patron 2
@@ -270,6 +266,6 @@ Commande reproductible :
 python verify_nfa_alice_bob.py --model AB5 --prop P2 --pattern 2
 ```
 
-- États explorés (visited) : **11**
+- États explorés (visited) : **10**
 - Résultat : **SAT** (pas de contre-exemple)
 
