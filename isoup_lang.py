@@ -22,7 +22,7 @@ class iSoupSemantics:
     def __init__(self, isoup: iSoup):
         self.isoup = isoup
 
-    def initial(self) -> List[Any]:
+    def initials(self) -> List[Any]:
         return list(self.isoup.init)
 
     def accepting(self, prop_state: Any) -> bool:
